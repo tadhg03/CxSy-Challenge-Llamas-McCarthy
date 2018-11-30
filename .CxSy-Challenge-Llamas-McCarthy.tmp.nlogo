@@ -34,23 +34,23 @@ to grow-pool
 end
 
 to setup-pool
-  if (distancexy (0.5 * max-pxcor) 2) < 5
+  if (distancexy (0. * max-pxcor) 2) < 5 ;; should probably change this but idk
   [
     set pool-number 0 ;; 0 = "stable" pool
-    set pcolor red
+    set pcolor magenta
   ]
-  if (distancexy (0.0 * max-pxcor) 2) < 5
+  if (distancexy (0.0 * max-pxcor) 2) < 5 ;; should probably change this but idk
   [
     set pool-number 1 ;; 1 = "high" pool
-    set pcolor blue
-  ]
-  if (distancexy (-0.5 * max-pxcor) 2) < 5
-  [
-    set pool-number 2 ;; 2 = "low" pool
     set pcolor green
   ]
+  if (distancexy (-0.3 * max-pxcor) 2) < 5 ;; should probably change this but idk
+  [
+    set pool-number 2 ;; 1 = "low" pool
+    set pcolor red
+  ]
   if pool-number = 0
-  [ set current-payoff 1 ]
+  [ set current-payoff 1 ] ;;; setting amount of food on patch to 1
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
