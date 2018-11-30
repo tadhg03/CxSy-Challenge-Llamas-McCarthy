@@ -26,6 +26,48 @@ to setup
   reset-ticks
 end
 
+to go
+
+  ask turtles
+  [
+    set current-pool random 3
+    show current-pool
+
+    ;"stable" pool
+    if current-pool = 0
+    [
+
+      ;set current-agentCount current-agentCount + 1
+      ;set current-earnings current-earnings + 1
+      ;show "current count: "
+      ;show current-agentCount
+      ;show "for high pool"
+    ]
+
+    ;"high: pool
+    if current-pool = 1
+    [
+
+    ]
+
+    ;"low" pool
+    if current-pool = 2
+    [
+      ;set current-agentCount current-agentCount + 1
+      ;show "current count: "
+      ;show current-agentCount
+      ;show "for low pool"
+    ]
+
+  ]
+
+  ask patches
+  [
+    show "this is current-agentCount of pool num 2 ------------"
+    show [current-agentCount] of patches with [pool-number = 2]
+  ]
+end
+
 to grow-pool
   ask patches
   [
@@ -34,23 +76,24 @@ to grow-pool
 end
 
 to setup-pool
-  if (distancexy (0. * max-pxcor) 2) < 5 ;; should probably change this but idk
+  if (distancexy (0.5 * max-pxcor) 2) < 5
   [
     set pool-number 0 ;; 0 = "stable" pool
-    set pcolor magenta
-  ]
-  if (distancexy (0.0 * max-pxcor) 2) < 5 ;; should probably change this but idk
-  [
-    set pool-number 1 ;; 1 = "high" pool
-    set pcolor green
-  ]
-  if (distancexy (-0.3 * max-pxcor) 2) < 5 ;; should probably change this but idk
-  [
-    set pool-number 2 ;; 1 = "low" pool
     set pcolor red
   ]
+  if (distancexy (0.0 * max-pxcor) 2) < 5
+  [
+    set pool-number 1 ;; 1 = "high" pool
+    set pcolor blue
+
+  ]
+  if (distancexy (-0.5 * max-pxcor) 2) < 5
+  [
+    set pool-number 2 ;; 2 = "low" pool
+    set pcolor green
+  ]
   if pool-number = 0
-  [ set current-payoff 1 ] ;;; setting amount of food on patch to 1
+  [ set current-payoff 1 ]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -104,7 +147,7 @@ BUTTON
 61
 NIL
 go
-T
+NIL
 1
 T
 OBSERVER
@@ -123,7 +166,7 @@ population
 population
 1
 200
-1.0
+25.0
 1
 1
 NIL

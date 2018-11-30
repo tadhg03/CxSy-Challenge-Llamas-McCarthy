@@ -26,6 +26,48 @@ to setup
   reset-ticks
 end
 
+to go
+
+  ask turtles
+  [
+    set current-pool random 3
+    show current-pool
+
+    ;"stable" pool
+    if current-pool = 0
+    [
+
+      ;set current-agentCount current-agentCount + 1
+      ;set current-earnings current-earnings + 1
+      ;show "current count: "
+      ;show current-agentCount
+      ;show "for high pool"
+    ]
+
+    ;"high: pool
+    if current-pool = 1
+    [
+
+    ]
+
+    ;"low" pool
+    if current-pool = 2
+    [
+      ;set current-agentCount current-agentCount + 1
+      ;show "current count: "
+      ;show current-agentCount
+      ;show "for low pool"
+    ]
+
+  ]
+
+  ask patches
+  [
+    show "this is current-agentCount of pool num 2 ------------"
+    show [current-agentCount] of patches with [pool-number = 2]
+  ]
+end
+
 to grow-pool
   ask patches
   [
@@ -104,7 +146,7 @@ BUTTON
 61
 NIL
 go
-T
+NIL
 1
 T
 OBSERVER
@@ -123,7 +165,7 @@ population
 population
 1
 200
-1.0
+25.0
 1
 1
 NIL
