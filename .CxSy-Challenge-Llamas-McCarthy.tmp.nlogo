@@ -63,8 +63,22 @@ to go
 
   ask patches
   [
+
+    if pool-number = 2
+    [
+      set current-agentCount 3
+      show current-agentCount
+    ]
+
+    if pool-numer = 0
+    [
+      show "this is current-agentCount of pool num  ------------"
+      show current-agentCount
+    ]
+
     show "this is current-agentCount of pool num 2 ------------"
-    show [current-agentCount] of patches with [pool-number = 2]
+    ;show current-agentCount of patches with [pool-number = 2]
+
   ]
 end
 
@@ -85,7 +99,6 @@ to setup-pool
   [
     set pool-number 1 ;; 1 = "high" pool
     set pcolor blue
-
   ]
   if (distancexy (-0.5 * max-pxcor) 2) < 5
   [
