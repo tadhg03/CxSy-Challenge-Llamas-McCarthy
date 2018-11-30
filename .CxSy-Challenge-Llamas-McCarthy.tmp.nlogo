@@ -11,6 +11,9 @@ patches-own [
   pool-number
 ]
 
+globals [curr1 curr2 curr3 time-step]
+
+
 ;setting up turtles and food patches
 to setup
   clear-all
@@ -19,67 +22,97 @@ to setup
   [
     set shape "turtle"
     set size 2
-    set current-pool 0
+    set current-pool 1
     set current-earnings 0
   ]
   grow-pool
+  set time-step 0
   reset-ticks
 end
 
 to go
 
-  ask turtles
-  [
-    set current-pool random 3
-    show current-pool
+  ;loop[
 
-    ;"stable" pool
-    if current-pool = 0
+    set time-step (time-step + 1)
+
+    ;if time-step = 101
+    ;[
+       ;stop
+    ;]
+
+
+    print time-step
+
+    ask turtles
     [
+      set current-pool ((random 3) + 1)
 
-      ;set current-agentCount current-agentCount + 1
-      ;set current-earnings current-earnings + 1
-      ;show "current count: "
-      ;show current-agentCount
-      ;show "for high pool"
+      ;"stable" pool
+      if current-pool = 1
+      [
+        set curr1 (curr1 + 1)
+        move-to one-of patches with [pool-number = 1]
+      ]
+
+      ;"high: pool
+      if current-pool = 2
+      [
+        set curr2 (curr2 + 1)
+        move-to one-of patches with [pool-number = 2]
+      ]
+
+      ;"low" pool
+      if current-pool = 3
+      [
+        set curr3 (curr3 + 1)
+        move-to one-of patches with [pool-number = 3]
+      ]
     ]
 
-    ;"high: pool
-    if current-pool = 1
-    [
+    setPoolPop
+    countOfPool
 
+    ask turtles
+    [
+      let chance 0
+
+      ;"stable" pool
+      if current-pool = 1
+      [
+        set current-earnings (current-earnings + 1)
+      ]
+
+      ;"high: pool
+      if current-pool = 2
+      [
+        set chance random 4
+        if chance = 0
+        [
+          set current-earnings (current-earnings + (80 / curr2))
+        ]
+      ]
+
+      ;"low" pool
+      if current-pool = 3
+      [
+        set chance random 2
+        if chance = 0
+        [
+          set current-earnings (current-earnings + (40 / curr3))
+        ]
+      ]
+
+      type "Turtle has this much money "
+      show current-earnings
+      type "And was in pool "
+      show current-pool
     ]
 
-    ;"low" pool
-    if current-pool = 2
-    [
-      ;set current-agentCount current-agentCount + 1
-      ;show "current count: "
-      ;show current-agentCount
-      ;show "for low pool"
-    ]
-
-  ]
-
-  ask patches
-  [
-
-    if pool-number = 2
-    [
-      set current-agentCount 3
-      show current-agentCount
-    ]
-
-    if pool-numer = 0
-    [
-      show "this is current-agentCount of pool num  ------------"
-      show current-agentCount
-    ]
-
-    show "this is current-agentCount of pool num 2 ------------"
-    ;show current-agentCount of patches with [pool-number = 2]
-
-  ]
+    set curr1 0
+    set curr2 0
+    set curr3 0
+  ;]
 end
 
 to grow-pool
@@ -92,21 +125,53 @@ end
 to setup-pool
   if (distancexy (0.5 * max-pxcor) 2) < 5
   [
-    set pool-number 0 ;; 0 = "stable" pool
+    set pool-number 1 ;; 0 = "stable" pool
     set pcolor red
   ]
   if (distancexy (0.0 * max-pxcor) 2) < 5
   [
-    set pool-number 1 ;; 1 = "high" pool
+    set pool-number 2 ;; 1 = "high" pool
     set pcolor blue
   ]
   if (distancexy (-0.5 * max-pxcor) 2) < 5
   [
-    set pool-number 2 ;; 2 = "low" pool
+    set pool-number 3 ;; 2 = "low" pool
     set pcolor green
   ]
-  if pool-number = 0
+  if pool-number = 1
   [ set current-payoff 1 ]
+end
+
+to setPoolPop
+  ask patches[
+    if pool-number = 1
+    [
+      set current-agentCount curr1
+    ]
+    if pool-number = 2
+    [
+      set current-agentCount curr2
+    ]
+    if pool-number = 3
+    [
+      set current-agentCount curr3
+    ]
+  ]
+end
+
+to countOfPool
+  ask one-of patches with [pool-number = 1][
+      type "this is how many turtles are in pool 1 (stable pool): "
+      print current-agentCount
+  ]
+  ask one-of patches with [pool-number = 2][
+      type "this is how many turtles are in pool 2 (high pool): "
+      print current-agentCount
+  ]
+  ask one-of patches with [pool-number = 3][
+      type "this is how many turtles are in pool 3 (low pool): "
+      print current-agentCount
+  ]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -179,7 +244,7 @@ population
 population
 1
 200
-25.0
+1.0
 1
 1
 NIL

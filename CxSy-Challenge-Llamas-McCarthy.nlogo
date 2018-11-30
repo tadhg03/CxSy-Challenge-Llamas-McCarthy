@@ -11,6 +11,9 @@ patches-own [
   pool-number
 ]
 
+globals [curr0 curr1 curr2]
+
+
 ;setting up turtles and food patches
 to setup
   clear-all
@@ -31,41 +34,34 @@ to go
   ask turtles
   [
     set current-pool random 3
-    show current-pool
 
     ;"stable" pool
     if current-pool = 0
     [
-
-      ;set current-agentCount current-agentCount + 1
-      ;set current-earnings current-earnings + 1
-      ;show "current count: "
-      ;show current-agentCount
-      ;show "for high pool"
+      set curr0 (curr0 + 1)
+      set current-earnings (current-earnings + 1)
     ]
 
     ;"high: pool
     if current-pool = 1
     [
-
+      set curr1 (curr1 + 1)
     ]
 
     ;"low" pool
     if current-pool = 2
     [
-      ;set current-agentCount current-agentCount + 1
-      ;show "current count: "
-      ;show current-agentCount
-      ;show "for low pool"
+      set curr2 (curr2 + 1)
     ]
-
   ]
 
-  ask patches
-  [
-    show "this is current-agentCount of pool num 2 ------------"
-    show [current-agentCount] of patches with [pool-number = 2]
-  ]
+  setPoolPop
+  countOfPool
+
+  set curr0 0
+  set curr1 0
+  set curr2 0
+
 end
 
 to grow-pool
@@ -93,6 +89,38 @@ to setup-pool
   ]
   if pool-number = 0
   [ set current-payoff 1 ]
+end
+
+to setPoolPop
+  ask patches[
+    if pool-number = 0
+    [
+      set current-agentCount curr0
+    ]
+    if pool-number = 1
+    [
+      set current-agentCount curr1
+    ]
+    if pool-number = 2
+    [
+      set current-agentCount curr2
+    ]
+  ]
+end
+
+to countOfPool
+  ask one-of patches with [pool-number = 0][
+      show "this is for pool 0"
+      show current-agentCount
+  ]
+  ask one-of patches with [pool-number = 1][
+      show "this is for pool 1"
+      show current-agentCount
+  ]
+  ask one-of patches with [pool-number = 2][
+      show "this is for pool 2"
+      show current-agentCount
+  ]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
