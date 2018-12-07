@@ -11,7 +11,7 @@ patches-own [
   pool-number
 ]
 
-globals [curr1 curr2 curr3 time-step]
+globals [curr1 curr2 curr3 pool2chance pool3chance time-step]
 
 
 ;setting up turtles and food patches
@@ -35,6 +35,8 @@ to go
   ;loop[
 
     set time-step (time-step + 1)
+  set pool2chance random 100
+  set pool3chance random 100
 
     ;if time-step = 101
     ;[
@@ -55,7 +57,7 @@ to go
         move-to one-of patches with [pool-number = 1]
       ]
 
-      ;"high: pool
+      ;"high" pool
       if current-pool = 2
       [
         set curr2 (curr2 + 1)
@@ -81,32 +83,47 @@ to go
       if current-pool = 1
       [
         set current-earnings (current-earnings + 1)
+      print "----------------"
+      print "[THIS AGENT IS IN POOL ONE. HERE ARE HIS EARNINGS:]"
+        print current-earnings
       ]
 
-      ;"high: pool
+      ;"high" pool
       if current-pool = 2
       [
-        set chance random 4
-        if chance = 0
+      print "----------------"
+      print "[CHANCE ROLLED FOR POOL 2]"
+      print pool2chance
+      print "[PEOPLE IN POOL 2]"
+      print curr2
+        if pool2chance < 25
         [
           set current-earnings (current-earnings + (80 / curr2))
+        print "[THIS AGENT IS IN POOL TWO. HERE ARE HIS EARNINGS:]"
+        print current-earnings
         ]
       ]
 
       ;"low" pool
       if current-pool = 3
       [
-        set chance random 2
-        if chance = 0
+      print "----------------"
+      print "[CHANCE ROLLED FOR POOL 3]"
+      print pool3chance
+      print "[PEOPLE IN POOL 3]"
+      print curr3
+        if pool3chance < 50
         [
           set current-earnings (current-earnings + (40 / curr3))
+        print "[THIS AGENT IS IN POOL THREE. HERE ARE HIS EARNINGS:]"
+        print current-earnings
         ]
       ]
 
-      type "Turtle has this much money "
-      show current-earnings
-      type "And was in pool "
-      show current-pool
+      ;type "Turtle has this much money "
+      ;show current-earnings
+      ;type "And was in pool "
+      ;show current-pool
     ]
 
     set curr1 0
@@ -244,7 +261,7 @@ population
 population
 1
 200
-21.0
+5.0
 1
 1
 NIL
